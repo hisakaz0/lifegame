@@ -1,0 +1,12 @@
+
+.container td {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  background-color: rgba(0, 0, 255, .1); /* live */
+}
+
+.dead {
+  background-color: rgba(255, 255, 255, 1) !important;
+}
+
