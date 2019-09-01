@@ -5,7 +5,8 @@
 const props = {
   col: 64,
   row: 64,
-  interval: 100 // msec
+  interval: 100, // msec
+  step: 0,
 };
 
 const patterns = {};
@@ -28,7 +29,7 @@ const resumeGame = () => {
   }, props.interval);
 };
 
-const createBoard = () => {
+const createBoard = () => { // TODO: ボード生成と初期値計算、html反映を別の処理に分ける
   const board = getBoard();
   rangeFunc(props.row, () => createEle('tr')).map((row, rowIdx) => {
     rangeFunc(props.col, () => createEle('td')).map((blk, colIdx) => {
@@ -39,17 +40,24 @@ const createBoard = () => {
     return row;
   })
   .forEach(row => board.appendChild(row));
+
+  // TODO: populationセット
 };
 
-const nextGeneration = () => {
+const nextGeneration = () => { // TODO: next計算とhtml反映を別の処理に分ける
   const board = getBoard();
   const next = [];
+  props.step += 1;
 
   scanBoard((ele, rowIdx, colIdx, board) => {
       const { me, around } = getAround(board, colIdx, rowIdx);
       next.push({ ele: ele, next: nextState(me, around) });
   });
   next.forEach(({ ele, next }) => setDeadOrAlive(ele, next));
+  const population = next.filter(({ ele, next }) => next === ALIVE).length;
+
+  document.getElementById('population').textContent = population;
+  document.getElementById('step').textContent = props.step;
 };
 
 const nextState = (me, around) => {
