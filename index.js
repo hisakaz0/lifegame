@@ -30,33 +30,25 @@ const resumeGame = () => {
 
 const createBoard = () => {
   const board = getBoard();
-  rangeFunc(props.row, () => createEle('tr'))
-    .map((row, rowIdx) => {
-      rangeFunc(props.col, () => createEle('td'))
-        .map((blk, colIdx) => {
-          setDeadOrAlive(blk,
-            randStat() === ALIVE && randStat() == ALIVE ? ALIVE : DEAD
-          );
-          return blk;
-        })
-        .forEach(blk => row.appendChild(blk));
-      return row;
+  rangeFunc(props.row, () => createEle('tr')).map((row, rowIdx) => {
+    rangeFunc(props.col, () => createEle('td')).map((blk, colIdx) => {
+      setDeadOrAlive(blk, randStat() === ALIVE && randStat() == ALIVE ? ALIVE : DEAD);
+      return blk;
     })
-    .forEach(row => board.appendChild(row));
+    .forEach(blk => row.appendChild(blk));
+    return row;
+  })
+  .forEach(row => board.appendChild(row));
 };
 
 const nextGeneration = () => {
   const board = getBoard();
   const next = [];
-  Array.from(board.children)
-    .forEach((row, rowIdx) => {
-      Array.from(row.children)
-        .forEach((blk, colIdx) => {
-          const { me, around } = getAround(board, colIdx, rowIdx);
-          next.push({ ele: blk, next: nextState(me, around) });
-        });
-    });
 
+  scanBoard((ele, rowIdx, colIdx, board) => {
+      const { me, around } = getAround(board, colIdx, rowIdx);
+      next.push({ ele: ele, next: nextState(me, around) });
+  });
   next.forEach(({ ele, next }) => setDeadOrAlive(ele, next));
 };
 
@@ -92,15 +84,22 @@ const getAround = (board, colIdx, rowIdx) => {
     rowIdxs.forEach((ri, rowArrIdx) => {
       const ele = board.children[ci].children[ri]
       if (colArrIdx === 1 && rowArrIdx === 1) {
-        ret.me = isDead(ele);
+        ret.me = isDeadEle(ele);
       } else {
-        ret.around.push(isDead(ele));
+        ret.around.push(isDeadEle(ele));
       }
     });
   });
 
   return ret;
 };
+
+const scanBoard = (func) => {
+  const board = getBoard();
+  Array.from(board.children).forEach((row, rowIdx) =>
+    Array.from(row.children).forEach((ele, colIdx) => func(ele, rowIdx, colIdx, board))
+  );
+}
 
 const rangeFunc = (num, func) => {
   const arr = [];
@@ -118,7 +117,7 @@ const setDeadOrAlive = (ele, state) => state === DEAD
   ? ele.classList.add('dead') 
   : ele.classList.remove('dead');
 
-const isDead = (ele) => ele.classList.contains('dead') ? DEAD : ALIVE;
+const isDeadEle = (ele) => ele.classList.contains('dead') ? DEAD : ALIVE;
 const getBoard = () => document.getElementById("board");
 
 //////////////////////////////////////////////////
