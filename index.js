@@ -9,8 +9,6 @@ const props = {
   step: 0,
 };
 
-const patterns = {};
-
 const DEAD = false;
 const ALIVE = true;
 
@@ -31,9 +29,11 @@ const resumeGame = () => {
 
 const createBoard = () => { // TODO: ボード生成と初期値計算、html反映を別の処理に分ける
   const board = getBoard();
-  rangeFunc(props.row, () => createEle('tr')).map((row, rowIdx) => {
-    rangeFunc(props.col, () => createEle('td')).map((blk, colIdx) => {
-      setDeadOrAlive(blk, randStat() === ALIVE && randStat() == ALIVE ? ALIVE : DEAD);
+  rangeFunc(props.row, () => createEle('div')).map((row, rowIdx) => {
+    row.classList.add('row');
+    rangeFunc(props.col, () => createEle('div')).map((blk, colIdx) => {
+      initializer(blk, colIdx, rowIdx);
+      blk.classList.add('blk');
       return blk;
     })
     .forEach(blk => row.appendChild(blk));
@@ -43,6 +43,14 @@ const createBoard = () => { // TODO: ボード生成と初期値計算、html反
 
   // TODO: populationセット
 };
+
+const initializer = (blk, colIdx, rowIdx) => {
+  if (colIdx > 10 && colIdx < 30 && rowIdx > 10 && rowIdx< 30) {
+    setDeadOrAlive(blk, randStat() === ALIVE && randStat() == ALIVE ? ALIVE : DEAD);
+  } else {
+    setDeadOrAlive(blk, DEAD);
+  }
+}
 
 const nextGeneration = () => { // TODO: next計算とhtml反映を別の処理に分ける
   const board = getBoard();
@@ -61,7 +69,7 @@ const nextGeneration = () => { // TODO: next計算とhtml反映を別の処理�
 };
 
 const nextState = (me, around) => {
-  const numAlive = around.filter(c => c == ALIVE).length;
+  const numAlive = around.filter(c => c === ALIVE).length;
   if (me === ALIVE && (numAlive === 2 || numAlive === 3)) {
     return ALIVE; // stay life
   } else if (me === DEAD && numAlive === 3) {
@@ -88,9 +96,9 @@ const getAround = (board, colIdx, rowIdx) => {
     around: []
   };
 
-  colIdxs.forEach((ci, colArrIdx) => {
-    rowIdxs.forEach((ri, rowArrIdx) => {
-      const ele = board.children[ci].children[ri]
+  rowIdxs.forEach((ri, rowArrIdx) => {
+    colIdxs.forEach((ci, colArrIdx) => {
+      const ele = board.children[ri].children[ci]
       if (colArrIdx === 1 && rowArrIdx === 1) {
         ret.me = isDeadEle(ele);
       } else {
@@ -122,7 +130,7 @@ const createEle = (name) => document.createElement(name);
 const randStat = () => Math.round(Math.random()) === 1 ? DEAD : ALIVE;
 
 const setDeadOrAlive = (ele, state) => state === DEAD
-  ? ele.classList.add('dead') 
+  ? ele.classList.add('dead')
   : ele.classList.remove('dead');
 
 const isDeadEle = (ele) => ele.classList.contains('dead') ? DEAD : ALIVE;
