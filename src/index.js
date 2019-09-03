@@ -1,4 +1,7 @@
 
+import { ALIVE, DEAD, randState } from './common.js';
+import { createEle, getBoardEle, isDeadEle, setStateEle } from './infra.js';
+
 //////////////////////////////////////////////////
 // const
 
@@ -8,9 +11,6 @@ const props = {
   interval: 100, // msec
   step: 0,
 };
-
-const DEAD = false;
-const ALIVE = true;
 
 //////////////////////////////////////////////////
 // func
@@ -28,7 +28,7 @@ const resumeGame = () => {
 };
 
 const createBoard = () => { // TODO: ボード生成と初期値計算、html反映を別の処理に分ける
-  const board = getBoard();
+  const board = getBoardEle();
   rangeFunc(props.row, () => createEle('div')).map((row, rowIdx) => {
     row.classList.add('row');
     rangeFunc(props.col, () => createEle('div')).map((blk, colIdx) => {
@@ -46,14 +46,14 @@ const createBoard = () => { // TODO: ボード生成と初期値計算、html反
 
 const initializer = (blk, colIdx, rowIdx) => {
   if (colIdx > 10 && colIdx < 30 && rowIdx > 10 && rowIdx< 30) {
-    setDeadOrAlive(blk, randStat() === ALIVE && randStat() == ALIVE ? ALIVE : DEAD);
+    setStateEle(blk, randState() === ALIVE && randState() == ALIVE ? ALIVE : DEAD);
   } else {
-    setDeadOrAlive(blk, DEAD);
+    setStateEle(blk, DEAD);
   }
 }
 
 const nextGeneration = () => { // TODO: next計算とhtml反映を別の処理に分ける
-  const board = getBoard();
+  const board = getBoardEle();
   const next = [];
   props.step += 1;
 
@@ -61,7 +61,7 @@ const nextGeneration = () => { // TODO: next計算とhtml反映を別の処理�
       const { me, around } = getAround(board, colIdx, rowIdx);
       next.push({ ele: ele, next: nextState(me, around) });
   });
-  next.forEach(({ ele, next }) => setDeadOrAlive(ele, next));
+  next.forEach(({ ele, next }) => setStateEle(ele, next));
   const population = next.filter(({ ele, next }) => next === ALIVE).length;
 
   document.getElementById('population').textContent = population;
@@ -111,7 +111,7 @@ const getAround = (board, colIdx, rowIdx) => {
 };
 
 const scanBoard = (func) => {
-  const board = getBoard();
+  const board = getBoardEle();
   Array.from(board.children).forEach((row, rowIdx) =>
     Array.from(row.children).forEach((ele, colIdx) => func(ele, rowIdx, colIdx, board))
   );
@@ -125,16 +125,6 @@ const rangeFunc = (num, func) => {
   return arr;
 };
 
-const createEle = (name) => document.createElement(name);
-
-const randStat = () => Math.round(Math.random()) === 1 ? DEAD : ALIVE;
-
-const setDeadOrAlive = (ele, state) => state === DEAD
-  ? ele.classList.add('dead')
-  : ele.classList.remove('dead');
-
-const isDeadEle = (ele) => ele.classList.contains('dead') ? DEAD : ALIVE;
-const getBoard = () => document.getElementById("board");
 
 //////////////////////////////////////////////////
 // event
