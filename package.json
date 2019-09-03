@@ -5,12 +5,18 @@
   "main": "index.js",
   "scripts": {
     "start": "php -S localhost:8888",
+    "build": "npx webpack --config webpack.config.js",
     "test": "jasmine"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
-    "jasmine": "^3.4.0"
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "jasmine": "^3.4.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7"
   }
 }
