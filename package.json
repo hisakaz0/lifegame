@@ -7,7 +7,8 @@
     "start": "php -S localhost:8888",
     "build": "npx webpack --config webpack.config.js",
     "build:watch": "npx webpack -w --config webpack.config.js",
-    "test": "jasmine"
+    "test": "karma start --single-run",
+    "test:watch": "karma start"
   },
   "author": "",
   "license": "MIT",
@@ -17,6 +18,10 @@
     "@babel/preset-env": "^7.5.5",
     "babel-loader": "^8.0.6",
     "jasmine": "^3.4.0",
+    "karma": "^4.3.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-webpack": "^4.0.2",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
   }
