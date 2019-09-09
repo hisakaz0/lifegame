@@ -1,3 +1,6 @@
+# Eslint report file
+/report
+
 # Webpack
 dist/
 
