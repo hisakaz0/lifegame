@@ -16,7 +16,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       // each file acts as entry point for the webpack configuration
-      { pattern: 'spec/**/*[Ss]pec.js', watched: true }
+      { pattern: 'spec/**/*[Ss]pec.js', watched: true },
+      'index.html'
     ],
 
 
@@ -28,7 +29,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec/**/*[Ss]pec.js': ['webpack']
+      'spec/**/*[Ss]pec.js': ['webpack'],
+      'index.html': ['html2js']
     },
 
 

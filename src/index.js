@@ -17,7 +17,7 @@ const props = {
 // ////////////////////////////////////////////////
 // event
 
-document.addEventListener('DOMContentLoaded', (_) => {
+document.addEventListener('DOMContentLoaded', () => {
   init();
 });
 
