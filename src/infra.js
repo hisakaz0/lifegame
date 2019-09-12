@@ -14,10 +14,10 @@ const setStateEle = (ele, state) => (state === DEAD)
   : ele.removeClass(DEAD_CLASS);
 
 const createBoard = ({x, y}) =>
-  createNumArray(x)
+  createNumArray(y)
     .map(() => createEle('div').addClass('row'))
     .map((row) =>
-      createNumArray(y)
+      createNumArray(x)
         .map(() => createEle('div').addClass('blk'))
         .map((blk) => row.appendChild(blk))
         .let(() => row)
