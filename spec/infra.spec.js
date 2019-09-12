@@ -5,13 +5,12 @@ import {
 } from '../src/infra';
 import { DEAD, ALIVE } from '../src/common';
 
-describe("infra module:", () => {
-
+describe('infra module:', () => {
   const setHtml = () => {
     document.body.innerHTML = __html__['index.html'];
-  }
+  };
 
-  describe("createEle:", () => {
+  describe('createEle:', () => {
     it("return HTMLElement when 'div' is fed", () => {
       expect(createEle('div') instanceof HTMLElement).toBe(true);
     });
@@ -21,17 +20,17 @@ describe("infra module:", () => {
     });
   });
 
-  describe("getBoardEle:", () => {
+  describe('getBoardEle:', () => {
     beforeEach(() => {
       document.body.innerHTML = __html__['index.html'];
     });
 
-    it("return board ele when is called", () => {
+    it('return board ele when is called', () => {
       expect(getBoardEle()).toBeDefined();
     });
   });
 
-  describe("setStateEle:", () => {
+  describe('setStateEle:', () => {
     beforeEach(() => {
       document.body.innerHTML = __html__['index.html'];
     });
@@ -48,12 +47,12 @@ describe("infra module:", () => {
       expect(e.classList.contains('dead')).toBe(false);
     });
 
-    it("return this when called", () => {
-      getBoardEle().let(ele => expect(setStateEle(ele, ALIVE)).toBe(ele));
+    it('return this when called', () => {
+      getBoardEle().let((ele) => expect(setStateEle(ele, ALIVE)).toBe(ele));
     });
   });
 
-  describe("isDeadEle:", () => {
+  describe('isDeadEle:', () => {
     beforeEach(() => {
       document.body.innerHTML = __html__['index.html'];
     });
@@ -71,28 +70,18 @@ describe("infra module:", () => {
     });
   });
 
-  describe("createBoard", () => {
+  describe('createBoard:', () => {
     beforeEach(() => setHtml());
 
-    const getRowSize = (size) =>
-      Array.from(getBoardEle().children).length
-    ;
-
-    const getRowSizeHasClass = (size) =>
-      Array.from(getBoardEle().children)
-        .filter((row) => row.classList.contains('row'))
-        .length
-    ;
-
-    const getRowSizeHasValidBlk = (size) =>
-      Array.from(getBoardEle().children)
-        .filter((row) => Array.from(row.children)
-          .filter(
-            (blk) => blk.classList.contains('blk')
-          ).length === size.x
-        ).length
-    ;
-
+    const getRowSize = (size) => Array.from(getBoardEle().children).length;
+    const getRowSizeHasClass = (size) => Array.from(getBoardEle().children)
+      .filter((row) => row.classList.contains('row'))
+      .length;
+    const getRowSizeHasValidBlk = (size) => Array.from(getBoardEle().children)
+      .filter((row) => Array.from(row.children)
+        .filter(
+          (blk) => blk.classList.contains('blk'),
+        ).length === size.x).length;
     it("32x32 board is created when '{ x: 32, y: 32 }' is fed", () => {
       const size = { x: 32, y: 32 };
       createBoard(size);

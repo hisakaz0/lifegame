@@ -1,16 +1,16 @@
 
 import { _ } from '../src/proto';
 
-describe("proto module:", () => {
-  describe("Object#let:", () => {
-    it("[].let(arr => arr.length === 0)", () => {
+describe('proto module:', () => {
+  describe('Object#let:', () => {
+    it('[].let(arr => arr.length === 0)', () => {
       const obj = [];
       obj.let((arr) => {
         expect(arr.length).toBe(0);
       });
     });
 
-    it("3.let(num => num === 3)", () => {
+    it('3.let(num => num === 3)', () => {
       const n = 3;
       n.let((num) => {
         expect(num).toEqual(3);
@@ -18,7 +18,7 @@ describe("proto module:", () => {
     });
   });
 
-  describe("HTMLElement#addClass:", () => {
+  describe('HTMLElement#addClass:', () => {
     it("return this when 'class' is fed", () => {
       const e = document.createElement('div');
       expect(e.addClass('class')).toBe(e);
@@ -31,7 +31,7 @@ describe("proto module:", () => {
     });
   });
 
-  describe("HTMLElement#removeClass:", () => {
+  describe('HTMLElement#removeClass:', () => {
     it("return this when 'class' is fed", () => {
       const e = document.createElement('div');
       expect(e.removeClass('class')).toBe(e);
@@ -42,8 +42,7 @@ describe("proto module:", () => {
       expect(e
         .addClass('class')
         .removeClass('class')
-        .classList.contains('class')
-      ).toBe(false);
+        .classList.contains('class')).toBe(false);
     });
   });
 });

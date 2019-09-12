@@ -1,10 +1,10 @@
 
-import { initializers } from '../src/domain';
+import { initializers, nextState } from '../src/domain';
 import { createNumArray } from '../src/helper';
 import { DEAD, ALIVE } from '../src/common';
 
 describe("domain module:", () => {
-  describe("randomRect initializer", () => {
+  describe("randomRect initializer:", () => {
     it("outside of rect is DEAD", () => {
       const size = { x: 60, y: 60 };
       const start = { x: 10, y: 10 };
@@ -26,6 +26,36 @@ describe("domain module:", () => {
         .length;
       expect(numAlive).toBeGreaterThan(1);
     });
+  });
+
+  describe("nextState:", () => {
+
+    const test = (current, numAlive, expectedValue) =>
+      nextState(current, Array(numAlive).fill(ALIVE))
+        |> expect
+        |> ((m) => m.toBe(expectedValue))
+    ;
+
+    it("return ALIVE when current is ALIVE and around has 3 alive cell", () => test(ALIVE, 3, ALIVE)
+    );
+
+    it("return ALIVE when current is ALIVE and around has 2 alive cell", () => test(ALIVE, 2, ALIVE)
+    );
+
+    it("return ALIVE when current is DEAD and around has 3 alive cell", () => test(DEAD, 3, ALIVE)
+    );
+
+    it("return DEAD when current is DEAD and around has 2 alive cell", () => test(DEAD, 2, DEAD)
+    );
+
+    it("return DEAD when current is DEAD and around has 4 alive cell", () => test(DEAD, 4, DEAD)
+    );
+
+    it("return DEAD when current is ALIVE and around has 1 alive cell", () => test(ALIVE, 1, DEAD)
+    );
+
+    it("return DEAD when current is ALIVE and around has 4 alive cell", () => test(ALIVE, 4, DEAD)
+    );
   });
 
 });

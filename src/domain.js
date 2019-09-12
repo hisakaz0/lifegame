@@ -1,5 +1,5 @@
 
-import { DEAD, randState } from './common';
+import { DEAD, ALIVE, randState } from './common';
 
 const initializers = {};
 
@@ -21,4 +21,13 @@ initializers.RandomRect = class RandomRect {
   }
 };
 
-export { initializers };
+const nextState = (current, around) => 
+  around.filter((e) => e === ALIVE).length
+  |> ((numAlive) => (
+    current === ALIVE && (numAlive === 2 || numAlive === 3)
+  ) || (
+    current === DEAD && numAlive === 3
+  ))
+;
+
+export { initializers, nextState };
