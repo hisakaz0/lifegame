@@ -1,5 +1,5 @@
 
-import { _ } from '../src/proto';
+import { } from '../src/proto';
 
 describe('proto module:', () => {
   describe('Object#let:', () => {

@@ -1,13 +1,13 @@
 
-import { populationChart } from './chart'; // keep top of the file
+import populationChart from './chart'; // keep top of the file
 import { ALIVE, DEAD, randState } from './common';
 import {
   createEle, getBoardEle, isDeadEle, setStateEle,
   getAroundEles, getBoardState, getCountOfAlive,
-  createBoard, setState, resultList
+  createBoard, setState, resultList,
 } from './infra';
 import {
-  initializers, nextState, lifegameHistory
+  initializers, nextState, lifegameHistory,
 } from './domain';
 
 // ////////////////////////////////////////////////
@@ -35,7 +35,7 @@ const setupBoard = () => {
   new initializers.RandomRect(
     { x: props.col, y: props.row },
     { x: 10, y: 10 },
-    { x: 20, y: 20 }
+    { x: 20, y: 20 },
   ).createMap().map((e) => setState(e));
 
   // TODO: populationセット
@@ -59,12 +59,12 @@ const nextGeneration = () => {
     }))
     .map(({ current, neighbors }) => ({
       ...current,
-      state: nextState(current.state, neighbors)
+      state: nextState(current.state, neighbors),
     }))
     .map((arg) => setState(arg));
 
   const count = getCountOfAlive();
-  const step = props.step;
+  const { step } = props;
 
   document.getElementById('population').textContent = count;
   document.getElementById('step').textContent = step;
@@ -90,7 +90,7 @@ const saveResult = () => {
   resultList.add({
     date: new Date(),
     populations: getCountOfAlive(),
-    steps: props.step
+    steps: props.step,
   });
 };
 
@@ -98,18 +98,19 @@ const setupButtons = () => {
   document.getElementById('reset').addEventListener('click', (ev) => {
     clearTimeout(props.tid);
     props.tid = undefined;
-    document.getElementById('resume-or-stop').textContent = "Start";
-    getBoardEle().innerHTML = "";
+    document.getElementById('resume-or-stop').textContent = 'Start';
+    getBoardEle().innerHTML = '';
     setupBoard();
     populationChart.reset();
     props.isStagnated = false;
     document.getElementById('end-of-game').classList.add('is-invisible');
   });
   document.getElementById('resume-or-stop').addEventListener('click', (ev) => {
+    const ele = ev.target;
     if (props.tid === undefined) {
       // stop -> resume
       resumeGame();
-      ev.target.textContent = "Stop";
+      ele.textContent = 'Stop';
     } else {
       // resume -> stop
       stopGame();
@@ -125,8 +126,8 @@ const setupButtons = () => {
 const stopGame = () => {
   clearTimeout(props.tid);
   props.tid = undefined;
-  document.getElementById('resume-or-stop').textContent = "Resume";
-}
+  document.getElementById('resume-or-stop').textContent = 'Resume';
+};
 
 const init = () => {
   setupBoard();
