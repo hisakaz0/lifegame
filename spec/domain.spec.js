@@ -1,5 +1,5 @@
 
-import { initializers, nextState } from '../src/domain';
+import { initializers, nextState, History } from '../src/domain';
 import { createNumArray } from '../src/helper';
 import { DEAD, ALIVE } from '../src/common';
 
@@ -21,7 +21,7 @@ describe("domain module:", () => {
       const start = { x: 5, y: 5 };
       const end = { x: 10, y: 10 };
       const randomRect = new initializers.RandomRect(size, start, end);
-      const numAlive = createNumArray(10)
+      const numAlive = createNumArray(16)
         .filter(() => randomRect._get({ x: 6, y: 6 }))
         .length;
       expect(numAlive).toBeGreaterThan(1);
@@ -56,6 +56,28 @@ describe("domain module:", () => {
 
     it("return DEAD when current is ALIVE and around has 4 alive cell", () => test(ALIVE, 4, DEAD)
     );
+  });
+
+  describe("History class:", () => {
+    const g = (x, y, state) => ({ x, y, state });
+    const arg1 = [ g(0, 0, ALIVE), g(0, 1, ALIVE), g(1, 0, DEAD),  g(1, 1, ALIVE) ];
+    const arg2 = [ g(0, 0, DEAD),  g(0, 1, DEAD) , g(1, 0, ALIVE), g(1, 1, ALIVE) ];
+    const arg3 = [ g(0, 0, ALIVE), g(0, 1, ALIVE), g(1, 0, DEAD),  g(1, 1, DEAD) ];
+    const h = new History(arg1);
+
+    it("return true when isEqual is called with a same object", () => {
+      h.isEqual(h) |> expect |> ((m) => m.toBe(true));
+    });
+
+    it("return false when isEqual is called with a three differ", () => {
+      const h2 = new History(arg2);
+      h.isEqual(h2) |> expect |> ((m) => m.toBe(false));
+    });
+
+    it("return false when isEqual is called with a one differ", () => {
+      const h3 = new History(arg3);
+      h.isEqual(h3) |> expect |> ((m) => m.toBe(false));
+    });
   });
 
 });

@@ -7,7 +7,7 @@ import {
   createBoard, setState
 } from './infra';
 import {
-  initializers, nextState
+  initializers, nextState, lifegameHistory
 } from './domain';
 
 // ////////////////////////////////////////////////
@@ -49,6 +49,10 @@ const nextGeneration = () => {
   props.step += 1;
 
   getBoardState()
+    .let((states) => {
+      lifegameHistory.add(states);
+      return states;
+    })
     .map((state) => ({
       current: state,
       neighbors: getAroundEles(state),
@@ -68,10 +72,17 @@ const nextGeneration = () => {
 };
 
 const resumeGame = () => {
+  if (props.isStagnated) return;
   props.tid = setTimeout(() => {
     nextGeneration();
     resumeGame();
   }, props.interval);
+};
+
+// セルの状態が動かなくなったとき
+const onStagnatedListener = () => {
+  props.isStagnated = true;
+  document.getElementById('end-of-game').classList.remove('is-invisible');
 };
 
 const setupButtons = () => {
@@ -82,6 +93,8 @@ const setupButtons = () => {
     getBoardEle().innerHTML = "";
     setupBoard();
     populationChart.reset();
+    props.isStagnated = false;
+    document.getElementById('end-of-game').classList.add('is-invisible');
   });
   document.getElementById('resume-or-stop').addEventListener('click', (ev) => {
     if (props.tid === undefined) {
@@ -90,17 +103,21 @@ const setupButtons = () => {
       ev.target.textContent = "Stop";
     } else {
       // resume -> stop
-      clearTimeout(props.tid);
-      props.tid = undefined;
-      ev.target.textContent = "Resume";
+      stopGame();
     }
   });
 };
+const stopGame = () => {
+  clearTimeout(props.tid);
+  props.tid = undefined;
+  document.getElementById('resume-or-stop').textContent = "Resume";
+}
 
 const init = () => {
   setupBoard();
   setupButtons();
   populationChart.setup();
+  lifegameHistory.setup(onStagnatedListener);
 
   resumeGame();
 };
