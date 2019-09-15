@@ -1,5 +1,6 @@
 
 import { DEAD, ALIVE, randState } from './common';
+import { createNumArray } from './helper';
 
 const initializers = {};
 
@@ -11,7 +12,7 @@ initializers.RandomRect = class RandomRect {
     this.end = end;
   }
 
-  get({ x, y }) {
+  _get({ x, y }) {
     return x >= this.start.x &&
       x <= this.end.x &&
       y >= this.start.y &&
@@ -19,9 +20,21 @@ initializers.RandomRect = class RandomRect {
       ? randState() : DEAD
     ;
   }
+
+  createMap() {
+    return createNumArray(this.size.y).map((yi) =>
+      createNumArray(this.size.x).map((xi) => (
+        {
+          x: xi,
+          y: yi,
+          state: this._get({ x: xi, y: yi })
+        }
+      ))
+    ).flat();
+  }
 };
 
-const nextState = (current, around) => 
+const nextState = (current, around) =>
   around.filter((e) => e === ALIVE).length
   |> ((numAlive) => (
     current === ALIVE && (numAlive === 2 || numAlive === 3)
