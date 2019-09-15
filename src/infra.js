@@ -101,8 +101,68 @@ const getBoardState = () =>
   )
 ;
 
+const resultList = new class ResultList {
+
+  constructor() {
+    this.key = 'lifegame-results';
+  }
+
+  setup() {
+    this.results = localStorage.getItem(this.key) |> JSON.parse;
+    this.results = this.results || [];
+    this.listing();
+  }
+
+  add(aResult) {
+    this.results.push(aResult);
+
+    // listing
+    this.getListEle().appendChild(this.createOneRecordWith(aResult));
+
+    // save
+    this.saveResults();
+  }
+
+  clear() {
+    localStorage.setItem(this.key, null);
+    this.results = [];
+    this.getListEle().innerHTML = "";
+  }
+
+  saveResults() {
+    localStorage.setItem(this.key, JSON.stringify(this.results));
+  }
+
+  listing() {
+    const ele = this.getListEle()
+    this.results.forEach((res) => ele.appendChild(this.createOneRecordWith(res)));
+  }
+
+  getListEle() {
+    return document.getElementById("history-of-result")
+      .getElementsByTagName('tbody')[0];
+  }
+
+  createOneRecordWith(aResult) {
+    const tr = createEle('tr');
+    const createAndSet = (text) =>
+      createEle('td') |>
+      ((td) => {
+        td.textContent = text;
+        return td;
+      });
+    [
+      createAndSet(aResult.date),
+      createAndSet(aResult.populations),
+      createAndSet(aResult.steps)
+    ]
+      .forEach((ele) => tr.appendChild(ele));
+    return tr;
+  }
+}
+
 export {
   createEle, getBoardEle, isDeadEle, setStateEle,
   createBoard, getCountOfAlive, setState, isAliveEle,
-  getState, getBoardState, getAroundEles
+  getState, getBoardState, getAroundEles, resultList
 };
