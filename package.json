@@ -12,8 +12,8 @@
     "build:types": "tsc --emitDeclarationOnly",
     "test": "karma start --single-run",
     "test:watch": "karma start",
-    "lint": "eslint --fix src/**/*.js spec/**/*.js",
-    "lint:report": "eslint --fix --no-color -o report/eslint.txt src/**/*.js spec/**/*.js"
+    "lint": "eslint --fix src/**/*.ts spec/**/*.ts",
+    "lint:report": "npm run lint -- -o report/eslint.txt"
   },
   "author": "",
   "license": "MIT",
