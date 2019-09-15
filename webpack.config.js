@@ -1,17 +1,21 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index',
   mode: process.env.MODE === 'prod' ? 'production' : 'development',
   output: {
-    filename: 'index.js',
+    filename: 'app.bundle.js',
     path: path.resolve(__dirname, 'dist')
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json']
   },
   devtool: 'inline-source-map',
   module: {
     rules: [
       {
-        test: /\.js$/,
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
