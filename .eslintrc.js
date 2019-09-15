@@ -12,5 +12,9 @@ module.exports = {
     "no-undef": "warn",
     "no-unused-vars": "warn",
     "no-extend-native": "warn"
+  },
+  "globals": {
+    // karma-html2js-preprocessor
+    "__html__": "readonly"
   }
 }
