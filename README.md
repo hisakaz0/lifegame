@@ -5,7 +5,8 @@
 - refactor/test:
   - [x] テストライブラリ導入
   - [x] テストコード
-  - [ ] install babel/typescript
+  - [x] install babel
+  - [ ] install typescript
   - [x] split into modules
   - [ ] use typescript
   - [ ] layered arch(sperate domain/infra)
@@ -16,7 +17,7 @@
   - [x] step/populationを2dグラフにする
   - [x] 表示きれいにする
   - [x] reset/stop/resume button
-  - [ ] populationが止まったときのstep表示
+  - [x] populationが止まったときのstep表示
   - [ ] パターン判定して色分けできたらいいな
   - [ ] 色を変更できるようなパレット
-  - [ ] ranking(localstorage)
+  - [x] listing result(localstorage)

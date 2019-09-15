@@ -4,7 +4,7 @@ import { ALIVE, DEAD, randState } from './common';
 import {
   createEle, getBoardEle, isDeadEle, setStateEle,
   getAroundEles, getBoardState, getCountOfAlive,
-  createBoard, setState
+  createBoard, setState, resultList
 } from './infra';
 import {
   initializers, nextState, lifegameHistory
@@ -63,7 +63,7 @@ const nextGeneration = () => {
     }))
     .map((arg) => setState(arg));
 
-  const count =  getCountOfAlive();
+  const count = getCountOfAlive();
   const step = props.step;
 
   document.getElementById('population').textContent = count;
@@ -82,7 +82,16 @@ const resumeGame = () => {
 // セルの状態が動かなくなったとき
 const onStagnatedListener = () => {
   props.isStagnated = true;
+  saveResult();
   document.getElementById('end-of-game').classList.remove('is-invisible');
+};
+
+const saveResult = () => {
+  resultList.add({
+    date: new Date(),
+    populations: getCountOfAlive(),
+    steps: props.step
+  });
 };
 
 const setupButtons = () => {
@@ -106,6 +115,12 @@ const setupButtons = () => {
       stopGame();
     }
   });
+  document.getElementById('save-result').addEventListener('click', (ev) => {
+    saveResult();
+  });
+  document.getElementById('clear-result').addEventListener('click', (ev) => {
+    resultList.clear();
+  });
 };
 const stopGame = () => {
   clearTimeout(props.tid);
@@ -117,6 +132,7 @@ const init = () => {
   setupBoard();
   setupButtons();
   populationChart.setup();
+  resultList.setup();
   lifegameHistory.setup(onStagnatedListener);
 
   resumeGame();
