@@ -1,5 +1,6 @@
 
 import { DEAD, ALIVE, randState } from '../src/common';
+import { createNumArray } from '../src/helper';
 
 describe('common module:', () => {
   it('DEAD is false', () => {
@@ -11,10 +12,8 @@ describe('common module:', () => {
   });
 
   it('randState return DEAD or ALIVE randomly', () => {
-    const ret = [];
-    for (let i = 0; i < 10; i += 1) {
-      ret.push(randState());
-    }
+    const ret = createNumArray(10)
+      .map(() => randState());
     expect(
       ret.filter((v) => v === ALIVE).length > 1
       && ret.filter((v) => v === DEAD).length > 1,
