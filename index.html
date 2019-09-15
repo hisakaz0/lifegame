@@ -3,12 +3,25 @@
   <head>
     <title>Life game</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" integrity="sha256-vK3UTo/8wHbaUn+dTQD0X6dzidqc5l7gczvH+Bnowwk=" crossorigin="anonymous" />
     <script defer src="dist/index.js"></script>
   </head>
   <body>
-    <p>step: <span id="step">0</span></p>
-    <p>population: <span id="population">0</span></p>
-    <div id="board" class="container"></div>
-    <canvas id="chart" width="800" height="400"></canvas>
+    <div class="container">
+      <section class="columns">
+        <div class="column is-one-quarter">
+          <h4 class="title is-4">Controller:</h4>
+          <button id="reset" class="button">Reset</button>
+          <button id="resume-or-stop" class="button">Stop</button>
+        </div>
+        <div class="column is-one-quarter">
+          <h4 class="title is-4">Status:</h4>
+          <p>step: <span id="step">0</span></p>
+          <p>population: <span id="population">0</span></p>
+        </div>
+      </section>
+      <div id="board" class="container"></div>
+      <canvas id="chart" width="800" height="400"></canvas>
+    </div>
   </body>
 </html>

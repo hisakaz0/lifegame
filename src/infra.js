@@ -1,7 +1,7 @@
 
 import { DEAD, ALIVE } from './common';
 import { createNumArray } from './helper';
-import { _ } from './proto';
+import { } from './proto';
 
 const DEAD_CLASS = 'dead';
 

@@ -39,7 +39,9 @@ const setupBoard = () => {
   ).createMap().map((e) => setState(e));
 
   // TODO: populationセット
+  props.step = 1;
   document.getElementById('population').textContent = getCountOfAlive();
+  document.getElementById('step').textContent = props.step;
 };
 
 const nextGeneration = () => {
@@ -66,14 +68,39 @@ const nextGeneration = () => {
 };
 
 const resumeGame = () => {
-  setTimeout(() => {
+  props.tid = setTimeout(() => {
     nextGeneration();
     resumeGame();
   }, props.interval);
 };
 
+const setupButtons = () => {
+  document.getElementById('reset').addEventListener('click', (ev) => {
+    clearTimeout(props.tid);
+    props.tid = undefined;
+    document.getElementById('resume-or-stop').textContent = "Start";
+    getBoardEle().innerHTML = "";
+    setupBoard();
+    populationChart.reset();
+  });
+  document.getElementById('resume-or-stop').addEventListener('click', (ev) => {
+    if (props.tid === undefined) {
+      // stop -> resume
+      resumeGame();
+      ev.target.textContent = "Stop";
+    } else {
+      // resume -> stop
+      clearTimeout(props.tid);
+      props.tid = undefined;
+      ev.target.textContent = "Resume";
+    }
+  });
+};
+
 const init = () => {
   setupBoard();
-  resumeGame();
+  setupButtons();
   populationChart.setup();
+
+  resumeGame();
 };

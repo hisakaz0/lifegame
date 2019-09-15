@@ -1,5 +1,6 @@
 
 import Chart from 'chart.js';
+import { } from './proto';
 
 const populationChart = new class PopulationChart {
   constructor() {
@@ -32,6 +33,12 @@ const populationChart = new class PopulationChart {
   update(step, population) {
     this.steps.push(step);
     this.populations.push(population);
+    this.chart.update();
+  }
+
+  reset() {
+    this.steps.clear();
+    this.populations.clear();
     this.chart.update();
   }
 };
