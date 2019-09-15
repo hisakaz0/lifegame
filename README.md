@@ -6,7 +6,7 @@
   - [x] テストライブラリ導入
   - [x] テストコード
   - [x] install babel
-  - [ ] install typescript
+  - [x] install typescript
   - [x] split into modules
   - [ ] use typescript
   - [ ] layered arch(sperate domain/infra)
