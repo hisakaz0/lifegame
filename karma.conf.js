@@ -17,7 +17,7 @@ module.exports = function(config) {
     files: [
       // each file acts as entry point for the webpack configuration
       { pattern: 'spec/**/*[Ss]pec.js', watched: true },
-      'index.html'
+      { pattern: 'spec/fixture/*.html', watched: true }
     ],
 
 
@@ -30,7 +30,12 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       'spec/**/*[Ss]pec.js': ['webpack', 'sourcemap'],
-      'index.html': ['html2js']
+      'spec/fixture/*.html': ['html2js']
+    },
+
+
+    html2JsPreprocessor: {
+      stripPrefix: 'spec/fixture/',
     },
 
 
