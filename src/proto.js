@@ -12,3 +12,7 @@ HTMLElement.prototype.removeClass = function (c) {
 Object.prototype.let = function (func) {
   return func(this);
 };
+
+Array.prototype.clear = function() {
+  this.length = 0;
+};
