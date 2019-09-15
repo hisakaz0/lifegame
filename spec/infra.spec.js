@@ -3,7 +3,7 @@ import {
   createEle, getBoardEle, setStateEle,
   isDeadEle, createBoard, getCountOfAlive,
   setState, getState, isAliveEle, getBoardState,
-  getAroundEles
+  getAroundEles,
 } from '../src/infra';
 import { DEAD, ALIVE } from '../src/common';
 
@@ -91,8 +91,8 @@ describe('infra module:', () => {
   describe('createBoard:', () => {
     beforeEach(() => setHtml());
 
-    const getRowSize = (size) => Array.from(getBoardEle().children).length;
-    const getRowSizeHasClass = (size) => Array.from(getBoardEle().children)
+    const getRowSize = () => Array.from(getBoardEle().children).length;
+    const getRowSizeHasClass = () => Array.from(getBoardEle().children)
       .filter((row) => row.classList.contains('row'))
       .length;
     const getRowSizeHasValidBlk = (size) => Array.from(getBoardEle().children)
@@ -104,16 +104,16 @@ describe('infra module:', () => {
     it("32x32 board is created when '{ x: 32, y: 32 }' is fed", () => {
       const size = { x: 32, y: 32 };
       createBoard(size);
-      expect(getRowSize(size)).toBe(size.y);
-      expect(getRowSizeHasClass(size)).toBe(size.y);
+      expect(getRowSize()).toBe(size.y);
+      expect(getRowSizeHasClass()).toBe(size.y);
       expect(getRowSizeHasValidBlk(size)).toBe(size.y);
     });
 
     it("16x15 board is created when '{ x: 16, y: 15 }' is fed", () => {
       const size = { x: 16, y: 15 };
       createBoard(size);
-      expect(getRowSize(size)).toBe(size.y);
-      expect(getRowSizeHasClass(size)).toBe(size.y);
+      expect(getRowSize()).toBe(size.y);
+      expect(getRowSizeHasClass()).toBe(size.y);
       expect(getRowSizeHasValidBlk(size)).toBe(size.y);
     });
   });
@@ -124,7 +124,7 @@ describe('infra module:', () => {
       createBoard({ x: 15, y: 15 });
     });
 
-    it("throw no error when called.", (done) => {
+    it('throw no error when called.', (done) => {
       setState({ x: 1, y: 1, state: DEAD });
       done();
     });
@@ -155,7 +155,7 @@ describe('infra module:', () => {
 
     it('return 15*15 - 1 when called setState(DEAD), this in order', () => {
       setState({ x: 2, y: 3, state: DEAD });
-      expect(getCountOfAlive()).toBe(15* 15 - 1);
+      expect(getCountOfAlive()).toBe(15 * 15 - 1);
     });
   });
 
@@ -165,51 +165,42 @@ describe('infra module:', () => {
       createBoard({ x: 15, y: 15 });
     });
 
-    it("return states which are alive when called", () => {
+    it('return states which are alive when called', () => {
       const ret = getBoardState();
       expect(ret.length).toBe(15 * 15);
-      ret.filter(({ state }) => state === ALIVE)
-        .length
-      |> expect
-      |> ((m) => m.toBe(15* 15));
+      const numAlive = ret.filter(({ state }) => state === ALIVE).length;
+      expect(numAlive).toBe(15 * 15);
     });
 
-    it("return states which has one dead when called setState(DEAD), this in order", () => {
+    it('return states which has one dead when called setState(DEAD), this in order', () => {
       setState({ x: 5, y: 7, state: DEAD });
       const ret = getBoardState();
-      ret.filter(({ state }) => state === ALIVE)
-        .length
-      |> expect
-      |> ((m) => m.toBe(15 * 15 -1));
-      ret.find(({ x, y}) => x === 5 && y === 7)
-        .state === DEAD
-      |> expect
-      |> ((m) => m.toBe(true));
+      const numAlive = ret.filter(({ state }) => state === ALIVE).length;
+      expect(numAlive).toBe(15 * 15 - 1);
+      const changedEle = ret.find(({ x, y }) => x === 5 && y === 7);
+      expect(changedEle.state).toBe(DEAD);
     });
   });
 
   describe('getAroundEles:', () => {
-
     beforeEach(() => {
       setHtml();
       createBoard({ x: 15, y: 15 });
     });
 
-    it("return arr length is 8 return is called", () => {
+    it('return arr length is 8 return is called', () => {
       const pos = { x: 1, y: 1 };
       expect(getAroundEles(pos).length).toBe(8);
       expect(getAroundEles(pos)
         .filter((v) => v === ALIVE)
-        .length
-      ).toBe(8);
+        .length).toBe(8);
     });
 
-    it("return arr length is 7 return setState(DEAD), this is called in order", () => {
+    it('return arr length is 7 return setState(DEAD), this is called in order', () => {
       setState({ x: 14, y: 14, state: DEAD });
       expect(getAroundEles({ x: 0, y: 0 })
         .filter((v) => v === ALIVE)
-        .length
-      ).toBe(7);
+        .length).toBe(7);
     });
   });
 });

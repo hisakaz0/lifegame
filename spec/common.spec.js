@@ -1,6 +1,6 @@
 
 import { DEAD, ALIVE, randState } from '../src/common';
-import { createNumArray } from '../src/helper';
+import createNumArray from '../src/helper';
 
 describe('common module:', () => {
   it('DEAD is false', () => {

@@ -1,6 +1,6 @@
 
 import { DEAD, ALIVE } from './common';
-import { createNumArray } from './helper';
+import createNumArray from './helper';
 import { } from './proto';
 
 const DEAD_CLASS = 'dead';
@@ -14,23 +14,16 @@ const setStateEle = (ele, state) => ((state === DEAD)
   ? ele.addClass(DEAD_CLASS)
   : ele.removeClass(DEAD_CLASS));
 
-const setState = ({ x, y, state }) =>
-  getBoardEle().children[x].children[y]
-  |> ((ele) => setStateEle(ele, state))
-;
-
-const getState = ({ x, y }) =>
-  getBoardEle().children[x].children[y]
-  |> ((ele) => isDeadEle(ele) ? DEAD : ALIVE)
-;
-
+const setState = ({ x, y, state }) => getBoardEle().children[x].children[y]
+  |> ((ele) => setStateEle(ele, state));
+const getState = ({ x, y }) => getBoardEle().children[x].children[y]
+  |> ((ele) => (isDeadEle(ele) ? DEAD : ALIVE));
 const createBoard = ({ x, y }) => createNumArray(y)
   .map(() => createEle('div').addClass('row'))
   .map((row) => createNumArray(x)
     .map(() => createEle('div').addClass('blk'))
     .map((blk) => row.appendChild(blk))
-    .let(() => row)
-  ).map((row) => getBoardEle().appendChild(row));
+    .let(() => row)).map((row) => getBoardEle().appendChild(row));
 
 const getAroundEles = ({ x, y }) => {
   const size = getBoardEle().children
@@ -39,70 +32,56 @@ const getAroundEles = ({ x, y }) => {
     x: rowArr[0].children
     |> Array.from
     |> ((colArr) => colArr.length),
-    y: rowArr.length
+    y: rowArr.length,
   }));
   const xArr = [
     x === 0 ? size.x - 1 : x - 1,
     x,
-    x === size.x - 1 ? 0 : x + 1
+    x === size.x - 1 ? 0 : x + 1,
   ];
   const yArr = [
     y === 0 ? size.y - 1 : y - 1,
     y,
-    y === size.y - 1 ? 0 : y + 1
+    y === size.y - 1 ? 0 : y + 1,
   ];
-  return xArr.map((x) =>
-    yArr.map((y) => [x, y])
-  )
+  return xArr.map((x) => yArr.map((y) => [x, y]))
     .flat()
     .filter(([xi, yi]) => x !== xi || y !== yi)
     .map(([x, y]) => getState({ x, y }));
 };
 
-const getCountOfAlive = () =>
-  getBoardEle().children
+const getCountOfAlive = () => getBoardEle().children
   |> Array.from
   |> ((rowArr) => rowArr
-    .map((row) =>
-      row.children
+    .map((row) => row.children
       |> Array.from
-      |> ((row) =>
-        row.map((blk) =>
-          isAliveEle(blk)
-        )))
+      |> ((row) => row.map((blk) => isAliveEle(blk))))
     .flat()
     .filter((v) => v === ALIVE)
     .length
-  )
-;
-
-const getBoardState = () =>
-  getBoardEle().children
+  );
+const getBoardState = () => getBoardEle().children
   |> Array.from
   |> ((rowArr) => rowArr
-    .map((row, rowIdx) =>
-      row.children
+    .map((row, rowIdx) => row.children
       |> Array.from
       |> ((colArr) => colArr
         .map((blk, colIdx) => (
           {
             x: colIdx,
-            y: rowIdx
+            y: rowIdx,
           }
         ))
         .map((pos) => (
           {
             ...pos,
-            state: getState(pos)
+            state: getState(pos),
           }
         ))
       ))
     .flat()
-  )
-;
-
+  );
 const resultList = new class ResultList {
-
   constructor() {
     this.key = 'lifegame-results';
   }
@@ -126,7 +105,7 @@ const resultList = new class ResultList {
   clear() {
     localStorage.setItem(this.key, null);
     this.results = [];
-    this.getListEle().innerHTML = "";
+    this.getListEle().innerHTML = '';
   }
 
   saveResults() {
@@ -134,35 +113,34 @@ const resultList = new class ResultList {
   }
 
   listing() {
-    const ele = this.getListEle()
+    const ele = this.getListEle();
     this.results.forEach((res) => ele.appendChild(this.createOneRecordWith(res)));
   }
 
   getListEle() {
-    return document.getElementById("history-of-result")
+    return document.getElementById('history-of-result')
       .getElementsByTagName('tbody')[0];
   }
 
   createOneRecordWith(aResult) {
     const tr = createEle('tr');
-    const createAndSet = (text) =>
-      createEle('td') |>
-      ((td) => {
+    const createAndSet = (text) => createEle('td')
+      |> ((td) => {
         td.textContent = text;
         return td;
       });
     [
       createAndSet(aResult.date),
       createAndSet(aResult.populations),
-      createAndSet(aResult.steps)
+      createAndSet(aResult.steps),
     ]
       .forEach((ele) => tr.appendChild(ele));
     return tr;
   }
-}
+}();
 
 export {
   createEle, getBoardEle, isDeadEle, setStateEle,
   createBoard, getCountOfAlive, setState, isAliveEle,
-  getState, getBoardState, getAroundEles, resultList
+  getState, getBoardState, getAroundEles, resultList,
 };

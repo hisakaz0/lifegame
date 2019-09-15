@@ -1,5 +1,5 @@
 
-import { createNumArray } from '../src/helper';
+import createNumArray from '../src/helper';
 
 describe('helper module:', () => {
   describe('createNumArray:', () => {

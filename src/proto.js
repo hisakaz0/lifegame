@@ -13,6 +13,6 @@ Object.prototype.let = function (func) {
   return func(this);
 };
 
-Array.prototype.clear = function() {
+Array.prototype.clear = function () {
   this.length = 0;
 };
