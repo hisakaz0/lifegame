@@ -15,7 +15,7 @@
   - [x] 次の世代計算か反映がおかしいので修正
   - [x] step/populationを2dグラフにする
   - [x] 表示きれいにする
-  - [ ] reset/stop/resume button
+  - [x] reset/stop/resume button
   - [ ] populationが止まったときのstep表示
   - [ ] パターン判定して色分けできたらいいな
   - [ ] 色を変更できるようなパレット
