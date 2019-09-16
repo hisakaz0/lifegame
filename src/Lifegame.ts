@@ -1,0 +1,91 @@
+import Board from './Board';
+import Chart from './Chart';
+import Props from './Props';
+import HistoryList from './HistoryList';
+import ResultList from './ResultList';
+import Controller from './Controller';
+import LifegameCommand from './LifegameCommand';
+
+export default new (class Lifegame implements LifegameCommand {
+  private numOfGeneration: number = 1;
+  private numOfPopulation: number = 0;
+  private isStagnated: boolean = false;
+  private tid: number = -1;
+
+  constructor() {}
+
+  isRunning(): boolean {
+    return this.tid !== -1;
+  }
+
+  getPopulation() {
+    return this.numOfPopulation;
+  }
+
+  getGeneration() {
+    return this.numOfGeneration;
+  }
+
+  setup() {
+    Board.create();
+    Board.setup();
+    Chart.setup();
+    Controller.addOnClickResetButtonListener(() => {
+      this.numOfGeneration = 1;
+      this.numOfPopulation = 0;
+      clearTimeout(this.tid);
+      this.tid = -1;
+
+      Board.setup();
+      Chart.setup();
+      HistoryList.setup();
+      Controller.update(
+        this.isRunning(),
+        this.numOfPopulation,
+        this.numOfGeneration
+      );
+    });
+    Controller.addOnClickResumeStopButtonListener(() => {
+      this.isRunning() ? this.stop() : this.resume();
+    });
+    HistoryList.setup(() => {
+      this.isStagnated = true;
+    });
+    ResultList.setup(this);
+    Controller.setup();
+  }
+
+  stop() {
+    clearTimeout(this.tid);
+    this.tid = -1;
+  }
+
+  resume() {
+    if (this.isStagnated) return;
+    this.tid = setTimeout(() => {
+      this.nextGeneration();
+      this.resume();
+    }, Props.interval);
+  }
+
+  nextGeneration() {
+    // get current cells
+    const currentCrowd = Board.getCrowd();
+    if (currentCrowd === null) return;
+
+    // calculate next
+    const nextCrowd = currentCrowd.next();
+    this.numOfPopulation = nextCrowd.getPopulation();
+    this.numOfGeneration = this.numOfGeneration + 1;
+
+    // update ui
+    Controller.update(
+      this.isRunning(),
+      this.numOfPopulation,
+      this.numOfGeneration
+    );
+    Board.setCrowd(nextCrowd);
+    Chart.update(this.numOfGeneration, this.numOfPopulation);
+    HistoryList.add(nextCrowd);
+  }
+})();

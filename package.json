@@ -12,8 +12,9 @@
     "build:types": "tsc --emitDeclarationOnly",
     "test": "karma start --single-run",
     "test:watch": "karma start",
-    "lint": "eslint --fix src/**/*.js spec/**/*.js",
-    "lint:report": "eslint --fix --no-color -o report/eslint.txt src/**/*.js spec/**/*.js"
+    "format": "prettier --write {src,spec}/**/*.{ts,js}",
+    "lint": "eslint --fix src/**/*.ts",
+    "lint:report": "npm run lint -- -o report/eslint.txt"
   },
   "author": "",
   "license": "MIT",
@@ -28,8 +29,9 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
     "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
     "@babel/preset-env": "^7.6.0",
-    "babel-eslint": "^10.0.3",
     "@babel/preset-typescript": "^7.6.0",
+    "@types/chart.js": "^2.8.5",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "eslint": "^6.4.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -45,6 +47,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
+    "prettier": "1.18.2",
     "typescript": "^3.6.3",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7"
