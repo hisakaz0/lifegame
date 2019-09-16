@@ -1,24 +1,29 @@
-
 import Chart from 'chart.js';
-import { } from './proto';
 
-const populationChart = new class PopulationChart {
+export default new (class PopulationChart {
+  private populations: Array<number>;
+  private steps: Array<string>;
+  private chart: Chart | null = null;
+
   constructor() {
     this.populations = [];
     this.steps = [];
   }
 
   setup() {
-    const ctx = document.getElementById('chart').getContext('2d');
-    this.chart = new Chart(ctx, {
+    const canvas = document.getElementById('chart') as HTMLCanvasElement;
+    if (canvas === null) return;
+    this.chart = new Chart(canvas, {
       type: 'line',
       data: {
         labels: this.steps,
-        datasets: [{
-          label: '# of population',
-          data: this.populations,
-          lineTension: 0,
-        }],
+        datasets: [
+          {
+            label: '# of population',
+            data: this.populations,
+            lineTension: 0,
+          },
+        ],
       },
       options: {
         animation: {
@@ -30,17 +35,19 @@ const populationChart = new class PopulationChart {
     });
   }
 
-  update(step, population) {
-    this.steps.push(step);
+  update(step: number, population: number) {
+    this.steps.push(String(step));
     this.populations.push(population);
-    this.chart.update();
+    if (this.chart !== null) {
+      this.chart.update();
+    }
   }
 
   reset() {
-    this.steps.clear();
-    this.populations.clear();
-    this.chart.update();
+    this.steps.length = 0;
+    this.populations.length = 0;
+    if (this.chart !== null) {
+      this.chart.update();
+    }
   }
-}();
-
-export default populationChart;
+})();
