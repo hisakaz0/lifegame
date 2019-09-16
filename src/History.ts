@@ -9,17 +9,14 @@ export default class History {
   }
 
   isEqual(aHistory: History) {
+    // 16.82%
+    const l1 = this.crowd.cells;
+    const l2 = aHistory.crowd.cells;
     return (
-      this.crowd.cells
-        .map((c1) =>
-          aHistory.crowd.cells.find(
-            (c2) =>
-              c1.pos.x === c2.pos.x &&
-              c1.pos.y === c2.pos.y &&
-              c1.state === c2.state
-          )
-        )
-        .filter((v) => v !== undefined).length === this.crowd.cells.length
+      l1.filter((c1, idx) => {
+        const c2 = l2[idx];
+        return c1.state === c2.state;
+      }).length === l1.length
     );
   }
 }

@@ -8,16 +8,16 @@ import RandomRect from './RandomRect';
 
 const deadClass = 'dead';
 
-const getState = function(ele: HTMLElement): State {
+const getState = function(ele: Element): State {
   return ele.classList.contains(deadClass) ? State.Dead : State.Alive;
 };
 
-const setState = function(ele: HTMLElement, state: State) {
+const setState = function(ele: Element, state: State) {
   const l = ele.classList;
   state === State.Alive ? l.remove(deadClass) : l.add(deadClass);
 };
 
-const getBoardEle = function(): HTMLElement | null {
+const getBoardEle = function(): Element | null {
   return document.getElementById('board');
 };
 
@@ -74,8 +74,8 @@ export default new (class Board {
     const board = getBoardEle();
     if (board === null) return;
     crowd.cells.forEach(({ pos, state }) => {
-      const row = board.children[pos.y] as HTMLElement;
-      const blk = row.children[pos.x] as HTMLElement;
+      const row = board.children[pos.y];
+      const blk = row.children[pos.x];
       if (getState(blk) !== state) {
         setState(blk, state);
       }
@@ -85,10 +85,10 @@ export default new (class Board {
   public getCrowd(): Crowd | null {
     const board = getBoardEle();
     if (board === null) return null;
-    const rows = Array.from(board.children) as Array<HTMLElement>;
+    const rows = Array.from(board.children);
     const cells = rows
       .map((row, yi) => {
-        const blks = Array.from(row.children) as Array<HTMLElement>;
+        const blks = Array.from(row.children);
         return blks.map((blk, xi) => {
           return new Cell({ x: xi, y: yi }, getState(blk));
         });
