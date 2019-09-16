@@ -31,23 +31,17 @@ export default class Crowd {
       y,
       y === size.y - 1 ? 0 : y + 1,
     ];
-    const flatRet = xs
-      .map((xi) => {
-        return ys.map((yi) => {
-          return this.cells.find((neighbor) => {
-            if (
-              neighbor === undefined ||
-              (neighbor.pos.x === xs[1] && neighbor.pos.y === ys[1])
-            ) {
-              return false;
-            }
-            return xi === neighbor.pos.x && yi === neighbor.pos.y;
-          });
+    // Array.prototype.findは遅いため
+    const indexer = (x: number, y: number, ysize: number) => x + y * ysize;
+    return xs
+      .map((xi, xsi) => {
+        return ys.map((yi, ysi) => {
+          if (xsi === 1 && ysi === 1) return null;
+          return this.cells[indexer(xi, yi, size.y)];
         });
       })
       .flat()
-      .filter((neighbor) => neighbor !== undefined);
-    return flatRet as Array<Cell>;
+      .filter((ret) => ret != null) as Array<Cell>;
   }
 
   getPopulation(): number {
