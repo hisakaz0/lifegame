@@ -53,12 +53,14 @@ export default new (class Controller {
   public update(
     isRunning: boolean,
     numOfPopulation: number,
-    numOfGeneration: number
+    numOfGeneration: number,
+    isStagnated: boolean
   ) {
     displayTo('num-of-population', String(numOfPopulation));
     displayTo('num-of-generation', String(numOfGeneration));
 
     this.setResumeStopButton(isRunning);
+    this.setEndGameMesage(isStagnated);
   }
 
   private setResumeStopButton(isRunning: boolean) {
@@ -67,6 +69,16 @@ export default new (class Controller {
     const text = isRunning ? 'Stop' : 'Resume';
     if (ele.textContent !== text) {
       ele.textContent = text;
+    }
+  }
+
+  private setEndGameMesage(isStagnated: boolean) {
+    const ele = document.getElementById('end-of-game');
+    if (ele === null) return;
+    if (isStagnated) {
+      ele.classList.remove('is-invisible');
+    } else {
+      ele.classList.add('is-invisible');
     }
   }
 })();

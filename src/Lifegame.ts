@@ -31,28 +31,36 @@ export default new (class Lifegame implements LifegameCommand {
     Board.setup();
     Chart.setup();
     Controller.addOnClickResetButtonListener(() => {
+      this.isStagnated = false;
       this.numOfGeneration = 1;
       this.numOfPopulation = 0;
       clearTimeout(this.tid);
       this.tid = -1;
 
+      this.updateController();
       Board.setup();
       Chart.setup();
       HistoryList.setup();
-      Controller.update(
-        this.isRunning(),
-        this.numOfPopulation,
-        this.numOfGeneration
-      );
     });
     Controller.addOnClickResumeStopButtonListener(() => {
       this.isRunning() ? this.stop() : this.resume();
+      this.updateController();
     });
     HistoryList.setup(() => {
       this.isStagnated = true;
+      this.updateController();
     });
     ResultList.setup(this);
     Controller.setup();
+  }
+
+  updateController() {
+    Controller.update(
+      this.isRunning(),
+      this.numOfPopulation,
+      this.numOfGeneration,
+      this.isStagnated
+    );
   }
 
   stop() {
@@ -79,11 +87,7 @@ export default new (class Lifegame implements LifegameCommand {
     this.numOfGeneration = this.numOfGeneration + 1;
 
     // update ui
-    Controller.update(
-      this.isRunning(),
-      this.numOfPopulation,
-      this.numOfGeneration
-    );
+    this.updateController();
     Board.setCrowd(nextCrowd);
     Chart.update(this.numOfGeneration, this.numOfPopulation);
     HistoryList.add(nextCrowd);

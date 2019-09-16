@@ -11,9 +11,13 @@ export default new (class PopulationChart {
   }
 
   setup() {
+    this.steps.length = 0;
+    this.populations.length = 0;
+
+    if (this.chart !== null) return;
+
     const canvas = document.getElementById('chart') as HTMLCanvasElement;
     if (canvas === null) return;
-    if (this.chart !== null) return;
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {
@@ -39,14 +43,6 @@ export default new (class PopulationChart {
   update(step: number, population: number) {
     this.steps.push(String(step));
     this.populations.push(population);
-    if (this.chart !== null) {
-      this.chart.update();
-    }
-  }
-
-  reset() {
-    this.steps.length = 0;
-    this.populations.length = 0;
     if (this.chart !== null) {
       this.chart.update();
     }
