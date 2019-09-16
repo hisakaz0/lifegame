@@ -1,19 +1,18 @@
-
 // import { DEAD, ALIVE } from './common';
 // import createNumArray from './helper';
 // import { } from './proto';
-// 
+//
 // const DEAD_CLASS = 'dead';
-// 
+//
 // const createEle = (name) => document.createElement(name);
 // const getBoardEle = () => document.getElementById('board');
 // const isDeadEle = (ele) => ele.classList.contains(DEAD_CLASS);
 // const isAliveEle = (ele) => !isDeadEle(ele);
-// 
+//
 // const setStateEle = (ele, state) => ((state === DEAD)
 //   ? ele.addClass(DEAD_CLASS)
 //   : ele.removeClass(DEAD_CLASS));
-// 
+//
 // const setState = ({ x, y, state }) => getBoardEle().children[x].children[y]
 //   |> ((ele) => setStateEle(ele, state));
 // const getState = ({ x, y }) => getBoardEle().children[x].children[y]
@@ -24,7 +23,7 @@
 //     .map(() => createEle('div').addClass('blk'))
 //     .map((blk) => row.appendChild(blk))
 //     .let(() => row)).map((row) => getBoardEle().appendChild(row));
-// 
+//
 // const getAroundEles = ({ x, y }) => {
 //   const size = getBoardEle().children
 //   |> Array.from
@@ -49,7 +48,7 @@
 //     .filter(([xi, yi]) => x !== xi || y !== yi)
 //     .map(([x, y]) => getState({ x, y }));
 // };
-// 
+//
 // const getCountOfAlive = () => getBoardEle().children
 //   |> Array.from
 //   |> ((rowArr) => rowArr
@@ -81,7 +80,7 @@
 //       ))
 //     .flat()
 //   );
-// 
+//
 // export {
 //   createEle, getBoardEle, isDeadEle, setStateEle,
 //   createBoard, getCountOfAlive, setState, isAliveEle,

@@ -1,4 +1,3 @@
-
 import Point from './Point';
 
 type Size = Point;

@@ -25,9 +25,9 @@ export default class RandomRect {
   }
 
   generateMap(): Crowd {
-    const ret = [...Array(this.size.y)]
+    const ret = [...Array(this.size.y).keys()]
       .map((yi) => {
-        return [...Array(this.size.x)].map((xi) => {
+        return [...Array(this.size.x).keys()].map((xi) => {
           const pos: Point = { x: xi, y: yi };
           return new Cell(pos, this.get(pos));
         });

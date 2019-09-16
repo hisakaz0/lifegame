@@ -13,6 +13,7 @@ export default new (class PopulationChart {
   setup() {
     const canvas = document.getElementById('chart') as HTMLCanvasElement;
     if (canvas === null) return;
+    if (this.chart !== null) return;
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {

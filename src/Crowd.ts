@@ -35,15 +35,19 @@ export default class Crowd {
       .map((xi) => {
         return ys.map((yi) => {
           return this.cells.find((neighbor) => {
-            if (neighbor === undefined) return false;
+            if (
+              neighbor === undefined ||
+              (neighbor.pos.x === xs[1] && neighbor.pos.y === ys[1])
+            ) {
+              return false;
+            }
             return xi === neighbor.pos.x && yi === neighbor.pos.y;
           });
         });
       })
-      .flat();
-    return (flatRet.filter((neighbor) => neighbor !== undefined) as Array<
-      Cell
-    >).filter((neighbor) => x !== neighbor.pos.x && y !== neighbor.pos.y);
+      .flat()
+      .filter((neighbor) => neighbor !== undefined);
+    return flatRet as Array<Cell>;
   }
 
   getPopulation(): number {

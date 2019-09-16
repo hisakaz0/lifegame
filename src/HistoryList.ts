@@ -1,19 +1,20 @@
 import History from './History';
 import Cell from './Cell';
 import Crowd from './Crowd';
+import Listener from './Listener';
 
 export default new (class HistoryList {
   static Limit = 5;
-  private histories: Array<History>;
-  private listener: (() => void) | null;
+  private histories: Array<History> = [];
+  private listener: Listener | null = null;
 
-  constructor() {
+  constructor() {}
+
+  setup(listener?: Listener) {
     this.histories = [];
-    this.listener = null;
-  }
-
-  setup(listener: () => void) {
-    this.listener = listener;
+    if (listener !== undefined) {
+      this.listener = listener;
+    }
   }
 
   add(crowd: Crowd) {

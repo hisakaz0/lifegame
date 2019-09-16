@@ -13,7 +13,7 @@
     "test": "karma start --single-run",
     "test:watch": "karma start",
     "format": "prettier --write {src,spec}/**/*.{ts,js}",
-    "lint": "eslint --fix src/**/*.ts spec/**/*.ts",
+    "lint": "eslint --fix src/**/*.ts",
     "lint:report": "npm run lint -- -o report/eslint.txt"
   },
   "author": "",
