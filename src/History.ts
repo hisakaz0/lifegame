@@ -9,7 +9,6 @@ export default class History {
   }
 
   isEqual(aHistory: History) {
-    // 16.82%
     const l1 = this.crowd.cells;
     const l2 = aHistory.crowd.cells;
     return l1.every((c1, idx) => {

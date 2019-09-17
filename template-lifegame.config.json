@@ -14,5 +14,8 @@
     }
   },
   "intervalMillisecond": 10,
-  "enableDetectStagnation": false
+  "stagnationDetect": {
+    "enable": false,
+    "historyLimit": 5
+  }
 }
