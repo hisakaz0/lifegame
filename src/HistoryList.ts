@@ -5,7 +5,7 @@ import Listener from './Listener';
 import Props from '../lifegame.config.json';
 
 export default new (class HistoryList {
-  static Limit = 5;
+  static Limit = Props.stagnationDetect.historyLimit;
   private histories: Array<History> = [];
   private listener: Listener | null = null;
 
@@ -19,7 +19,7 @@ export default new (class HistoryList {
   }
 
   add(crowd: Crowd) {
-    if (!Props.enableDetectStagnation) return;
+    if (!Props.stagnationDetect.enable) return;
     this.histories.push(new History(crowd));
     if (this.histories.length > HistoryList.Limit) {
       this.histories.shift();
