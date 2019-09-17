@@ -17,5 +17,6 @@
   "stagnationDetect": {
     "enable": false,
     "historyLimit": 5
-  }
+  },
+  "enablePopulationChart": false
 }

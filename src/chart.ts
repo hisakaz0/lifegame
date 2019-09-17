@@ -1,4 +1,5 @@
 import Chart from 'chart.js';
+import Props from '../lifegame.config.json';
 
 export default new (class PopulationChart {
   private populations: Array<number>;
@@ -11,13 +12,18 @@ export default new (class PopulationChart {
   }
 
   setup() {
+    const canvas = document.getElementById('chart') as HTMLCanvasElement;
+    if (canvas === null) return;
+
+    if (!Props.enablePopulationChart) {
+      canvas.classList.add('is-hidden');
+      return;
+    }
+
     this.steps.length = 0;
     this.populations.length = 0;
 
     if (this.chart !== null) return;
-
-    const canvas = document.getElementById('chart') as HTMLCanvasElement;
-    if (canvas === null) return;
     this.chart = new Chart(canvas, {
       type: 'line',
       data: {
@@ -41,6 +47,8 @@ export default new (class PopulationChart {
   }
 
   update(step: number, population: number) {
+    if (!Props.enablePopulationChart) return;
+
     this.steps.push(String(step));
     this.populations.push(population);
     if (this.chart !== null) {
