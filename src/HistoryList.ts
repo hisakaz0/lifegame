@@ -2,6 +2,7 @@ import History from './History';
 import Cell from './Cell';
 import Crowd from './Crowd';
 import Listener from './Listener';
+import Props from '../lifegame.config.json';
 
 export default new (class HistoryList {
   static Limit = 5;
@@ -18,6 +19,7 @@ export default new (class HistoryList {
   }
 
   add(crowd: Crowd) {
+    if (!Props.enableDetectStagnation) return;
     this.histories.push(new History(crowd));
     if (this.histories.length > HistoryList.Limit) {
       this.histories.shift();
