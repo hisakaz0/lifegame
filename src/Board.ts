@@ -3,7 +3,7 @@ import Cell from './Cell';
 import Crowd from './Crowd';
 import Point from './Point';
 import Size from './Size';
-import Props from './Props';
+import Props from '../lifegame.config.json';
 import RandomRect from './RandomRect';
 
 const deadClass = 'dead';
