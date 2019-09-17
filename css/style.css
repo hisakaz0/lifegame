@@ -6,11 +6,19 @@
   float: left;
   width: 8px;
   height: 8px;
-  border: .5px solid rgba(0, 0, 0, .2);
-  background-color: rgba(0, 0, 255, .1); /* live */
+  border-right: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 255, 0.1); /* live */
+}
+
+.container .row .blk:first-child {
+  border-left: 0.5px solid rgba(0, 0, 0, 0.2);
+}
+
+.container .row:first-child .blk {
+  border-top: 0.5px solid rgba(0, 0, 0, 0.2);
 }
 
 .dead {
   background-color: rgba(255, 255, 255, 1) !important;
 }
-
