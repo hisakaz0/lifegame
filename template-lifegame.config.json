@@ -1,0 +1,8 @@
+{
+  "size": {
+    "x": 128,
+    "y": 128
+  },
+  "interval": 10,
+  "enableDetectStagnation": false
+}

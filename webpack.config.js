@@ -2,13 +2,12 @@ const path = require('path');
 
 module.exports = {
   entry: './src/index',
-  mode: process.env.MODE === 'prod' ? 'production' : 'development',
   output: {
     filename: 'app.bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
+    extensions: ['.ts', '.tsx', '.js', '.json'],
   },
   devtool: 'inline-source-map',
   module: {
@@ -19,8 +18,8 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-        }
-      }
-    ]
-  }
+        },
+      },
+    ],
+  },
 };
