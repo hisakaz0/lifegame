@@ -16,7 +16,9 @@ export default new (class PopulationChart {
     if (canvas === null) return;
 
     if (!Props.enablePopulationChart) {
-      canvas.classList.add('is-hidden');
+      const wrapper = canvas.parentElement;
+      if (wrapper === null) return;
+      wrapper.classList.add('is-hidden');
       return;
     }
 
