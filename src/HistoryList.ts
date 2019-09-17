@@ -31,16 +31,8 @@ export default new (class HistoryList {
 
   private isGameStagnated(): boolean {
     return [...this.histories].reverse().some((hist, idx, hists) => {
-      if (idx > 0) return false;
-      let ret = false;
-      if (idx === 0 && hists.length > 3) {
-        ret = hists[0].isEqual(hists[2]);
-      }
-      if (ret) return true;
-      if (idx === 0 && hists.length > 2) {
-        ret = hists[0].isEqual(hists[1]);
-      }
-      return ret;
+      if (idx === 0) return false;
+      return hists[0].isEqual(hist);
     });
   }
 })();
