@@ -12,11 +12,9 @@ export default class History {
     // 16.82%
     const l1 = this.crowd.cells;
     const l2 = aHistory.crowd.cells;
-    return (
-      l1.filter((c1, idx) => {
-        const c2 = l2[idx];
-        return c1.state === c2.state;
-      }).length === l1.length
-    );
+    return l1.every((c1, idx) => {
+      const c2 = l2[idx];
+      return c1.state === c2.state;
+    });
   }
 }
