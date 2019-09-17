@@ -73,7 +73,7 @@ export default new (class Lifegame implements LifegameCommand {
     this.tid = window.setTimeout(() => {
       this.nextGeneration();
       this.resume();
-    }, Props.interval);
+    }, Props.intervalMillisecond);
   }
 
   nextGeneration() {

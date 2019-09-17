@@ -1,8 +1,18 @@
 {
-  "size": {
+  "boardSize": {
     "x": 128,
     "y": 128
   },
-  "interval": 10,
+  "initialRandomArea": {
+    "start": {
+      "x": 10,
+      "y": 10
+    },
+    "end": {
+      "x": 30,
+      "y": 30
+    }
+  },
+  "intervalMillisecond": 10,
   "enableDetectStagnation": false
 }

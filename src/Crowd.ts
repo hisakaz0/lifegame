@@ -2,7 +2,7 @@ import Props from '../lifegame.config.json';
 import Cell from './Cell';
 import State from './State';
 
-const size = Props.size;
+const size = Props.boardSize;
 
 export default class Crowd {
   cells: Array<Cell>;
