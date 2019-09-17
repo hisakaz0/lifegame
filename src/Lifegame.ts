@@ -70,7 +70,7 @@ export default new (class Lifegame implements LifegameCommand {
 
   resume() {
     if (this.isStagnated) return;
-    this.tid = setTimeout(() => {
+    this.tid = window.setTimeout(() => {
       this.nextGeneration();
       this.resume();
     }, Props.interval);
