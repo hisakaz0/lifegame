@@ -1,6 +1,6 @@
 import Board from './Board';
 import Chart from './Chart';
-import Props from './Props';
+import Props from '../lifegame.config.json';
 import HistoryList from './HistoryList';
 import ResultList from './ResultList';
 import Controller from './Controller';

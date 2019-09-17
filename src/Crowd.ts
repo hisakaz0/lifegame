@@ -1,4 +1,4 @@
-import Props from './Props';
+import Props from '../lifegame.config.json';
 import Cell from './Cell';
 import State from './State';
 
