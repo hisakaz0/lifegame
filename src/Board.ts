@@ -64,8 +64,8 @@ export default new (class Board {
   public setup() {
     const initializer = new RandomRect(
       this.size,
-      { x: 10, y: 10 },
-      { x: 30, y: 30 }
+      Props.initialRandomArea.start,
+      Props.initialRandomArea.end
     );
     this.setCrowd(initializer.generateMap());
   }
@@ -111,4 +111,4 @@ export default new (class Board {
       ele.textContent = 'Resume';
     }
   }
-})(Props.size);
+})(Props.boardSize);
