@@ -31,13 +31,12 @@ export default class Crowd {
       y,
       y === size.y - 1 ? 0 : y + 1,
     ];
-    // Array.prototype.findは遅いため
-    const indexer = (x: number, y: number, ysize: number) => x + y * ysize;
+    const indexer = (x: number, y: number, arrSize: number) => x + y * arrSize;
     return xs
       .map((xi, xsi) => {
         return ys.map((yi, ysi) => {
           if (xsi === 1 && ysi === 1) return null;
-          return this.cells[indexer(xi, yi, size.y)];
+          return this.cells[indexer(xi, yi, size.x)];
         });
       })
       .flat()
