@@ -5,6 +5,7 @@ import Point from './Point';
 import Size from './Size';
 import Props from '../lifegame.config.json';
 import RandomRect from './RandomRect';
+import CellConfig from './CellConfig';
 
 const deadClass = 'dead';
 
@@ -30,45 +31,31 @@ const displayTo = function(aElement: string, withContent: string) {
 
 export default new (class Board {
   private size: Size;
+  private cellConfig: CellConfig;
+  private canvas: CanvasRenderingContext2D | null = null;
 
-  constructor(size: Size) {
+  constructor(size: Size, cellConfig: CellConfig) {
     this.size = size;
+    this.cellConfig = cellConfig;
   }
 
   public create() {
-    const { x, y } = this.size;
-    const board = getBoardEle();
+    const board = getBoardEle() as HTMLCanvasElement;
     if (board === null) return;
 
-    [...Array(y)]
-      .map(() => {
-        const row = document.createElement('div');
-        row.classList.add('row');
-        return row;
-      })
-      .map((row) => {
-        [...Array(x)]
-          .map(() => {
-            const blk = document.createElement('div');
-            blk.classList.add('blk');
-            return blk;
-          })
-          .forEach((blk) => row.appendChild(blk));
-        return row;
-      })
-      .forEach((row) => {
-        board.appendChild(row);
-      });
+    board.width = this.size.x * this.cellConfig.size;
+    board.height = this.size.y * this.cellConfig.size;
+    this.canvas = board.getContext('2d');
   }
 
+  // TODO: stateが変わらなかったら更新しない処理
   public setCrowd(crowd: Crowd) {
-    const board = getBoardEle();
-    if (board === null) return;
+    const size = this.cellConfig.size;
+    // TODO: indexerを使う
     crowd.cells.forEach(({ pos, state }) => {
-      const row = board.children[pos.y];
-      const blk = row.children[pos.x];
-      if (getState(blk) !== state) {
-        setState(blk, state);
+      if (this.canvas === null) return;
+      this.canvas.fillStyle = state === State.Dead ? 'white' : 'cyan';
+      this.canvas.fillRect(size * pos.x, size * pos.y, size, size);
       }
     });
   }
@@ -87,4 +74,4 @@ export default new (class Board {
       ele.textContent = 'Resume';
     }
   }
-})(Props.boardSize);
+})(Props.board.size, Props.board.cell);

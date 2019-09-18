@@ -1,7 +1,13 @@
 {
-  "boardSize": {
-    "x": 128,
-    "y": 128
+  "board": {
+    "size": {
+      "x": 128,
+      "y": 128
+    },
+    "cell": {
+      "size": 8,
+      "drawBorder": true
+    }
   },
   "initialRandomArea": {
     "start": {

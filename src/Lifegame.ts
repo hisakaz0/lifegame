@@ -17,7 +17,7 @@ export default new (class Lifegame implements LifegameCommand {
 
   constructor() {
     const initializer = new RandomRect(
-      Props.boardSize,
+      Props.board.size,
       Props.initialRandomArea.start,
       Props.initialRandomArea.end
     );
@@ -48,7 +48,7 @@ export default new (class Lifegame implements LifegameCommand {
       this.tid = -1;
       this.updateController();
       const initializer = new RandomRect(
-        Props.boardSize,
+        Props.board.size,
         Props.initialRandomArea.start,
         Props.initialRandomArea.end
       );
