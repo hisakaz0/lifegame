@@ -61,15 +61,6 @@ export default new (class Board {
       });
   }
 
-  public setup() {
-    const initializer = new RandomRect(
-      this.size,
-      Props.initialRandomArea.start,
-      Props.initialRandomArea.end
-    );
-    this.setCrowd(initializer.generateMap());
-  }
-
   public setCrowd(crowd: Crowd) {
     const board = getBoardEle();
     if (board === null) return;
@@ -80,21 +71,6 @@ export default new (class Board {
         setState(blk, state);
       }
     });
-  }
-
-  public getCrowd(): Crowd | null {
-    const board = getBoardEle();
-    if (board === null) return null;
-    const rows = Array.from(board.children);
-    const cells = rows
-      .map((row, yi) => {
-        const blks = Array.from(row.children);
-        return blks.map((blk, xi) => {
-          return new Cell({ x: xi, y: yi }, getState(blk));
-        });
-      })
-      .flat();
-    return new Crowd(cells);
   }
 
   displayPopulation(count: number) {
