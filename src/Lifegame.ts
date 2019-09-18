@@ -1,9 +1,11 @@
 import Board from './Board';
 import Chart from './Chart';
+import Crowd from './Crowd';
 import Props from '../lifegame.config.json';
 import HistoryList from './HistoryList';
 import ResultList from './ResultList';
 import Controller from './Controller';
+import RandomRect from './RandomRect';
 import LifegameCommand from './LifegameCommand';
 
 export default new (class Lifegame implements LifegameCommand {
@@ -11,8 +13,16 @@ export default new (class Lifegame implements LifegameCommand {
   private numOfPopulation: number = 0;
   private isStagnated: boolean = false;
   private tid: number = -1;
+  private crowd: Crowd;
 
-  constructor() {}
+  constructor() {
+    const initializer = new RandomRect(
+      Props.boardSize,
+      Props.initialRandomArea.start,
+      Props.initialRandomArea.end
+    );
+    this.crowd = initializer.generateMap();
+  }
 
   isRunning(): boolean {
     return this.tid !== -1;
@@ -28,7 +38,7 @@ export default new (class Lifegame implements LifegameCommand {
 
   setup() {
     Board.create();
-    Board.setup();
+    Board.setCrowd(this.crowd);
     Chart.setup();
     Controller.addOnClickResetButtonListener(() => {
       this.isStagnated = false;
@@ -36,9 +46,14 @@ export default new (class Lifegame implements LifegameCommand {
       this.numOfPopulation = 0;
       clearTimeout(this.tid);
       this.tid = -1;
-
       this.updateController();
-      Board.setup();
+      const initializer = new RandomRect(
+        Props.boardSize,
+        Props.initialRandomArea.start,
+        Props.initialRandomArea.end
+      );
+      this.crowd = initializer.generateMap();
+
       Chart.setup();
       HistoryList.setup();
     });
@@ -77,12 +92,8 @@ export default new (class Lifegame implements LifegameCommand {
   }
 
   nextGeneration() {
-    // get current cells
-    const currentCrowd = Board.getCrowd();
-    if (currentCrowd === null) return;
-
     // calculate next
-    const nextCrowd = currentCrowd.next();
+    const nextCrowd = this.crowd.next();
     this.numOfPopulation = nextCrowd.getPopulation();
     this.numOfGeneration = this.numOfGeneration + 1;
 
@@ -91,5 +102,8 @@ export default new (class Lifegame implements LifegameCommand {
     Board.setCrowd(nextCrowd);
     Chart.update(this.numOfGeneration, this.numOfPopulation);
     HistoryList.add(nextCrowd);
+
+    // save next as current
+    this.crowd = nextCrowd;
   }
 })();
