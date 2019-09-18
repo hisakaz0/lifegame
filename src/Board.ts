@@ -46,21 +46,51 @@ export default new (class Board {
     board.width = this.size.x * this.cellConfig.size;
     board.height = this.size.y * this.cellConfig.size;
     this.canvas = board.getContext('2d');
+    if (this.canvas === null) return;
+    this.canvas.lineWidth = 0.2;
   }
 
-  // TODO: stateが変わらなかったら更新しない処理
-  public setCrowd(crowd: Crowd) {
+  public setCrowd(currCrowd: Crowd, prevCrowd?: Crowd) {
     const size = this.cellConfig.size;
-    // TODO: indexerを使う
-    crowd.cells.forEach(({ pos, state }) => {
-      if (this.canvas === null) return;
-      this.canvas.fillStyle = state === State.Dead ? 'white' : 'cyan';
-      this.canvas.fillRect(size * pos.x, size * pos.y, size, size);
 
-      if (this.cellConfig.drawBorder && state === State.Alive) {
-        this.canvas.strokeStyle = 'darkblue';
-        this.canvas.strokeRect(size * pos.x, size * pos.y, size, size);
+    const draw = (
+      canvas: CanvasRenderingContext2D,
+      x: number,
+      y: number,
+      w: number,
+      h: number,
+      prevState: State | null,
+      currState: State,
+      drawBorder: boolean
+    ) => {
+      // TODO: 無駄な描画しないときに枠線が残る
+      // if (currState == prevState) return;
+      canvas.fillStyle = currState === State.Dead ? 'white' : 'cyan';
+      canvas.fillRect(x, y, w, h);
+
+      if (drawBorder && currState === State.Alive) {
+        canvas.strokeStyle = 'darkblue';
+        canvas.strokeRect(x, y, w, h);
       }
+    };
+
+    currCrowd.cells.forEach((curr, idx) => {
+      if (this.canvas === null) return;
+
+      const prevState =
+        prevCrowd === undefined ? null : prevCrowd.cells[idx].state;
+      const p = curr.pos;
+      const s = this.cellConfig.size;
+      draw(
+        this.canvas,
+        s * p.x,
+        s * p.y,
+        s,
+        s,
+        prevState,
+        curr.state,
+        this.cellConfig.drawBorder
+      );
     });
   }
 

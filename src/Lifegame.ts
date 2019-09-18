@@ -99,7 +99,7 @@ export default new (class Lifegame implements LifegameCommand {
 
     // update ui
     this.updateController();
-    Board.setCrowd(nextCrowd);
+    Board.setCrowd(nextCrowd, this.crowd);
     Chart.update(this.numOfGeneration, this.numOfPopulation);
     HistoryList.add(nextCrowd);
 
