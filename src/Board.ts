@@ -56,6 +56,10 @@ export default new (class Board {
       if (this.canvas === null) return;
       this.canvas.fillStyle = state === State.Dead ? 'white' : 'cyan';
       this.canvas.fillRect(size * pos.x, size * pos.y, size, size);
+
+      if (this.cellConfig.drawBorder && state === State.Alive) {
+        this.canvas.strokeStyle = 'darkblue';
+        this.canvas.strokeRect(size * pos.x, size * pos.y, size, size);
       }
     });
   }
